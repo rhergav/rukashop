@@ -196,6 +196,10 @@
         categoryEl.appendChild(option);
       });
 
+      function getSafePaymentUrl(url) {
+        return typeof url === "string" && url.startsWith("https://") ? url : "#";
+      }
+
       function renderProducts() {
         const query = searchEl.value.trim().toLowerCase();
         const selectedCategory = categoryEl.value;
@@ -206,21 +210,53 @@
           return matchesSearch && matchesCategory;
         });
 
-        productsEl.innerHTML = filtered
-          .map(
-            (product) => `
-            <article class="card">
-              <img class="image" src="${product.image}" alt="${product.name}" loading="lazy" />
-              <h2 class="name">${product.name}</h2>
-              <p class="category">${product.category}</p>
-              <div class="bottom">
-                <span class="price">${product.price}</span>
-                <a class="buy" href="${product.paymentUrl}" target="_blank" rel="noopener noreferrer">Pagar con PayPal</a>
-              </div>
-            </article>
-          `
-          )
-          .join("");
+        productsEl.innerHTML = "";
+        const fragment = document.createDocumentFragment();
+
+        filtered.forEach((product) => {
+          const card = document.createElement("article");
+          card.className = "card";
+
+          const image = document.createElement("img");
+          image.className = "image";
+          image.src = product.image;
+          image.alt = product.name;
+          image.loading = "lazy";
+
+          const name = document.createElement("h2");
+          name.className = "name";
+          name.textContent = product.name;
+
+          const category = document.createElement("p");
+          category.className = "category";
+          category.textContent = product.category;
+
+          const bottom = document.createElement("div");
+          bottom.className = "bottom";
+
+          const price = document.createElement("span");
+          price.className = "price";
+          price.textContent = product.price;
+
+          const buy = document.createElement("a");
+          buy.className = "buy";
+          buy.href = getSafePaymentUrl(product.paymentUrl);
+          buy.target = "_blank";
+          buy.rel = "noopener noreferrer";
+          buy.textContent = "Pagar con PayPal";
+
+          bottom.appendChild(price);
+          bottom.appendChild(buy);
+
+          card.appendChild(image);
+          card.appendChild(name);
+          card.appendChild(category);
+          card.appendChild(bottom);
+
+          fragment.appendChild(card);
+        });
+
+        productsEl.appendChild(fragment);
 
         emptyEl.hidden = filtered.length > 0;
       }
