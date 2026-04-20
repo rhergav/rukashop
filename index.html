@@ -198,6 +198,7 @@
       const emptyEl = document.getElementById("empty");
       const searchEl = document.getElementById("search");
       const categoryEl = document.getElementById("category");
+      const trustedPaymentDomains = new Set(["www.paypal.com"]);
 
       const categories = [...new Set(products.map((product) => product.category))];
       categories.forEach((category) => {
@@ -212,8 +213,7 @@
         const normalized = url.trim();
         try {
           const parsed = new URL(normalized);
-          const trustedDomains = new Set(["www.paypal.com"]);
-          const trustedDomain = trustedDomains.has(parsed.hostname.toLowerCase());
+          const trustedDomain = trustedPaymentDomains.has(parsed.hostname.toLowerCase());
           return parsed.protocol === "https:" && trustedDomain ? normalized : "#";
         } catch {
           return "#";
@@ -262,7 +262,7 @@
           buy.href = getSafePaymentUrl(product.paymentUrl);
           buy.target = "_blank";
           buy.rel = "noopener noreferrer nofollow";
-          buy.setAttribute("aria-label", "Comprar ahora (abre en nueva pestaña)");
+          buy.setAttribute("aria-label", `Comprar ${product.name} (abre en nueva pestaña)`);
           buy.textContent = "Comprar ahora";
 
           bottom.appendChild(price);
