@@ -13,3 +13,4 @@ Web estática de productos, sencilla y moderna, preparada para GitHub Pages.
 
 Los botones de compra enlazan a PayPal (o plataforma similar), sin procesar pagos en la web.
 Esto permite publicar la tienda como sitio estático sin backend.
+Recuerda sustituir los enlaces de ejemplo por tus enlaces reales de cobro antes de publicar.

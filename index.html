@@ -158,28 +158,28 @@
           category: "Accesorios",
           price: "39,99 €",
           image: placeholder("Mochila Urbana", "#d8ddff"),
-          paymentUrl: "https://www.paypal.com"
+          paymentUrl: "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=demo%40rukashop.com&item_name=Mochila+Urbana&amount=39.99&currency_code=EUR"
         },
         {
           name: "Auriculares Pro",
           category: "Tecnología",
           price: "89,00 €",
           image: placeholder("Auriculares Pro", "#d8f3e8"),
-          paymentUrl: "https://www.paypal.com"
+          paymentUrl: "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=demo%40rukashop.com&item_name=Auriculares+Pro&amount=89.00&currency_code=EUR"
         },
         {
           name: "Lámpara Minimal",
           category: "Hogar",
           price: "29,50 €",
           image: placeholder("Lámpara Minimal", "#ffeccf"),
-          paymentUrl: "https://www.paypal.com"
+          paymentUrl: "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=demo%40rukashop.com&item_name=Lampara+Minimal&amount=29.50&currency_code=EUR"
         },
         {
           name: "Botella Térmica",
           category: "Deporte",
           price: "19,90 €",
           image: placeholder("Botella Térmica", "#ffe0e8"),
-          paymentUrl: "https://www.paypal.com"
+          paymentUrl: "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=demo%40rukashop.com&item_name=Botella+Termica&amount=19.90&currency_code=EUR"
         }
       ];
 
@@ -197,7 +197,14 @@
       });
 
       function getSafePaymentUrl(url) {
-        return typeof url === "string" && url.startsWith("https://") ? url : "#";
+        if (typeof url !== "string") return "#";
+        const normalized = url.trim();
+        try {
+          const parsed = new URL(normalized);
+          return parsed.protocol === "https:" ? normalized : "#";
+        } catch {
+          return "#";
+        }
       }
 
       function renderProducts() {
@@ -210,7 +217,6 @@
           return matchesSearch && matchesCategory;
         });
 
-        productsEl.innerHTML = "";
         const fragment = document.createDocumentFragment();
 
         filtered.forEach((product) => {
@@ -243,7 +249,7 @@
           buy.href = getSafePaymentUrl(product.paymentUrl);
           buy.target = "_blank";
           buy.rel = "noopener noreferrer";
-          buy.textContent = "Pagar con PayPal";
+          buy.textContent = "Comprar ahora";
 
           bottom.appendChild(price);
           bottom.appendChild(buy);
@@ -256,7 +262,7 @@
           fragment.appendChild(card);
         });
 
-        productsEl.appendChild(fragment);
+        productsEl.replaceChildren(fragment);
 
         emptyEl.hidden = filtered.length > 0;
       }
