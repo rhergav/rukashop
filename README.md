@@ -1,16 +1,13 @@
-# rukashop
+# Rukashop
 
-Web estática de productos, sencilla y moderna, preparada para GitHub Pages.
+Tienda online minimalista y estática.
 
-## Publicación en GitHub Pages
+Esta web sirve como catálogo de productos para Rukashop. Está diseñada para ser rápida, responsiva y no requiere de un servidor backend, ya que el procesamiento de pagos se delega de forma segura a plataformas externas.
 
-1. Sube el contenido del repositorio.
-2. En GitHub, entra en **Settings > Pages**.
-3. En **Build and deployment**, selecciona **Deploy from a branch**.
-4. Elige tu rama (por ejemplo `main`) y carpeta `/ (root)`.
+## Características
+- Diseño moderno y adaptado a móviles (Responsive).
+- Alojada en [GitHub Pages](https://pages.github.com/).
+- Pagos seguros gestionados externamente a través de PayPal.
 
-## Pagos externos
-
-Los botones de compra enlazan a PayPal (o plataforma similar), sin procesar pagos en la web.
-Esto permite publicar la tienda como sitio estático sin backend.
-Recuerda sustituir los enlaces de ejemplo por tus enlaces reales de cobro antes de publicar.
+---
+*© 2026 Rukashop. Todos los derechos reservados.*
