@@ -57,6 +57,16 @@
         gap: 1rem;
         padding-bottom: 2.5rem;
       }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
       .card {
         background: var(--card);
         border: 1px solid var(--border);
@@ -128,6 +138,7 @@
     </header>
 
     <main class="container">
+      <h2 class="sr-only">Catálogo de productos</h2>
       <section class="products" id="products" aria-live="polite"></section>
       <p class="empty" id="empty" hidden>No hay productos que coincidan con tu búsqueda.</p>
     </main>
@@ -201,7 +212,9 @@
         const normalized = url.trim();
         try {
           const parsed = new URL(normalized);
-          return parsed.protocol === "https:" ? normalized : "#";
+          const trustedDomains = new Set(["www.paypal.com"]);
+          const trustedDomain = trustedDomains.has(parsed.hostname.toLowerCase());
+          return parsed.protocol === "https:" && trustedDomain ? normalized : "#";
         } catch {
           return "#";
         }
@@ -229,7 +242,7 @@
           image.alt = product.name;
           image.loading = "lazy";
 
-          const name = document.createElement("h2");
+          const name = document.createElement("h3");
           name.className = "name";
           name.textContent = product.name;
 
@@ -248,7 +261,8 @@
           buy.className = "buy";
           buy.href = getSafePaymentUrl(product.paymentUrl);
           buy.target = "_blank";
-          buy.rel = "noopener noreferrer";
+          buy.rel = "noopener noreferrer nofollow";
+          buy.setAttribute("aria-label", "Comprar ahora (abre en nueva pestaña)");
           buy.textContent = "Comprar ahora";
 
           bottom.appendChild(price);
