@@ -163,34 +163,47 @@
         )}`;
       }
 
+      const PAYPAL_BUSINESS = "demo@rukashop.com"; // Reemplazar por el email real de PayPal antes de publicar.
+
+      function createPayPalCheckout(itemName, amount) {
+        const params = new URLSearchParams({
+          cmd: "_xclick",
+          business: PAYPAL_BUSINESS,
+          item_name: itemName,
+          amount,
+          currency_code: "EUR"
+        });
+        return `https://www.paypal.com/cgi-bin/webscr?${params.toString()}`;
+      }
+
       const products = [
         {
           name: "Mochila Urbana",
           category: "Accesorios",
           price: "39,99 €",
           image: placeholder("Mochila Urbana", "#d8ddff"),
-          paymentUrl: "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=demo%40rukashop.com&item_name=Mochila+Urbana&amount=39.99&currency_code=EUR"
+          paymentUrl: createPayPalCheckout("Mochila Urbana", "39.99")
         },
         {
           name: "Auriculares Pro",
           category: "Tecnología",
           price: "89,00 €",
           image: placeholder("Auriculares Pro", "#d8f3e8"),
-          paymentUrl: "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=demo%40rukashop.com&item_name=Auriculares+Pro&amount=89.00&currency_code=EUR"
+          paymentUrl: createPayPalCheckout("Auriculares Pro", "89.00")
         },
         {
           name: "Lámpara Minimal",
           category: "Hogar",
           price: "29,50 €",
           image: placeholder("Lámpara Minimal", "#ffeccf"),
-          paymentUrl: "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=demo%40rukashop.com&item_name=Lampara+Minimal&amount=29.50&currency_code=EUR"
+          paymentUrl: createPayPalCheckout("Lampara Minimal", "29.50")
         },
         {
           name: "Botella Térmica",
           category: "Deporte",
           price: "19,90 €",
           image: placeholder("Botella Térmica", "#ffe0e8"),
-          paymentUrl: "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=demo%40rukashop.com&item_name=Botella+Termica&amount=19.90&currency_code=EUR"
+          paymentUrl: createPayPalCheckout("Botella Termica", "19.90")
         }
       ];
 
@@ -198,6 +211,7 @@
       const emptyEl = document.getElementById("empty");
       const searchEl = document.getElementById("search");
       const categoryEl = document.getElementById("category");
+      // Añade aquí dominios de pago permitidos si integras otras plataformas externas.
       const trustedPaymentDomains = new Set(["www.paypal.com"]);
 
       const categories = [...new Set(products.map((product) => product.category))];
