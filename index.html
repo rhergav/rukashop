@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RukaShop | Productos</title>
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --card: #ffffff;
+        --text: #1c1f2a;
+        --muted: #656c80;
+        --brand: #5b6cff;
+        --brand-dark: #4251d1;
+        --ok: #13a05f;
+        --border: #e7eaf2;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: linear-gradient(180deg, #f4f6ff 0%, var(--bg) 45%);
+      }
+      .container {
+        width: min(1100px, 92%);
+        margin: 0 auto;
+      }
+      header {
+        padding: 3rem 0 2rem;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+      }
+      .subtitle {
+        color: var(--muted);
+        margin-top: .5rem;
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr minmax(140px, 220px);
+        gap: .8rem;
+        margin: 1.4rem 0 1.2rem;
+      }
+      input, select {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: .78rem .9rem;
+        font-size: .95rem;
+        background: #fff;
+      }
+      .products {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 1rem;
+        padding-bottom: 2.5rem;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1rem;
+        box-shadow: 0 10px 30px rgba(31, 41, 55, 0.05);
+      }
+      .image {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        border-radius: 12px;
+        background: #eef1ff;
+      }
+      .name {
+        font-weight: 600;
+        margin: .9rem 0 .3rem;
+      }
+      .category {
+        color: var(--muted);
+        font-size: .88rem;
+        margin: 0;
+      }
+      .bottom {
+        margin-top: .9rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: .5rem;
+      }
+      .price {
+        color: var(--ok);
+        font-weight: 700;
+      }
+      .buy {
+        display: inline-block;
+        text-decoration: none;
+        background: var(--brand);
+        color: white;
+        padding: .55rem .75rem;
+        border-radius: 10px;
+        font-size: .88rem;
+        font-weight: 600;
+      }
+      .buy:hover { background: var(--brand-dark); }
+      .empty {
+        text-align: center;
+        color: var(--muted);
+        margin: 2rem 0;
+      }
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 1rem 0 2rem;
+        color: var(--muted);
+        font-size: .9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="container">
+      <h1>RukaShop</h1>
+      <p class="subtitle">Web de productos sencilla, moderna y lista para publicarse en GitHub Pages.</p>
+      <div class="controls" role="search">
+        <input id="search" type="search" placeholder="Buscar producto..." aria-label="Buscar producto" />
+        <select id="category" aria-label="Filtrar por categoría">
+          <option value="all">Todas las categorías</option>
+        </select>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="products" id="products" aria-live="polite"></section>
+      <p class="empty" id="empty" hidden>No hay productos que coincidan con tu búsqueda.</p>
+    </main>
+
+    <footer class="container">
+      Los pagos se realizan en una plataforma externa (PayPal), ideal para despliegue estático en GitHub Pages.
+    </footer>
+
+    <script>
+      function placeholder(title, color) {
+        return `data:image/svg+xml;utf8,${encodeURIComponent(
+          `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'>
+            <defs>
+              <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+                <stop offset='0%' stop-color='${color}' />
+                <stop offset='100%' stop-color='#ffffff' />
+              </linearGradient>
+            </defs>
+            <rect width='100%' height='100%' fill='url(#g)' />
+            <text x='50%' y='52%' text-anchor='middle' font-family='Inter, Arial' font-size='38' fill='#1c1f2a'>${title}</text>
+          </svg>`
+        )}`;
+      }
+
+      const products = [
+        {
+          name: "Mochila Urbana",
+          category: "Accesorios",
+          price: "39,99 €",
+          image: placeholder("Mochila Urbana", "#d8ddff"),
+          paymentUrl: "https://www.paypal.com"
+        },
+        {
+          name: "Auriculares Pro",
+          category: "Tecnología",
+          price: "89,00 €",
+          image: placeholder("Auriculares Pro", "#d8f3e8"),
+          paymentUrl: "https://www.paypal.com"
+        },
+        {
+          name: "Lámpara Minimal",
+          category: "Hogar",
+          price: "29,50 €",
+          image: placeholder("Lámpara Minimal", "#ffeccf"),
+          paymentUrl: "https://www.paypal.com"
+        },
+        {
+          name: "Botella Térmica",
+          category: "Deporte",
+          price: "19,90 €",
+          image: placeholder("Botella Térmica", "#ffe0e8"),
+          paymentUrl: "https://www.paypal.com"
+        }
+      ];
+
+      const productsEl = document.getElementById("products");
+      const emptyEl = document.getElementById("empty");
+      const searchEl = document.getElementById("search");
+      const categoryEl = document.getElementById("category");
+
+      const categories = [...new Set(products.map((product) => product.category))];
+      categories.forEach((category) => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categoryEl.appendChild(option);
+      });
+
+      function renderProducts() {
+        const query = searchEl.value.trim().toLowerCase();
+        const selectedCategory = categoryEl.value;
+
+        const filtered = products.filter((product) => {
+          const matchesSearch = product.name.toLowerCase().includes(query);
+          const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
+          return matchesSearch && matchesCategory;
+        });
+
+        productsEl.innerHTML = filtered
+          .map(
+            (product) => `
+            <article class="card">
+              <img class="image" src="${product.image}" alt="${product.name}" loading="lazy" />
+              <h2 class="name">${product.name}</h2>
+              <p class="category">${product.category}</p>
+              <div class="bottom">
+                <span class="price">${product.price}</span>
+                <a class="buy" href="${product.paymentUrl}" target="_blank" rel="noopener noreferrer">Pagar con PayPal</a>
+              </div>
+            </article>
+          `
+          )
+          .join("");
+
+        emptyEl.hidden = filtered.length > 0;
+      }
+
+      searchEl.addEventListener("input", renderProducts);
+      categoryEl.addEventListener("change", renderProducts);
+      renderProducts();
+    </script>
+  </body>
+</html>
